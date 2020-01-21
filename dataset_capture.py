@@ -6,7 +6,8 @@ def assure_path_exists(path):
     dir = os.path.dirname(path)
     if not os.path.exists(dir):
         os.makedirs(dir)
-face_id=input('enter your id')
+face_id = input('enter id :')
+face_name = input('enter name :')
 # Start capturing video 
 vid_cam = cv2.VideoCapture(0)
 
@@ -28,19 +29,19 @@ while(True):
     gray = cv2.cvtColor(image_frame, cv2.COLOR_BGR2GRAY)
 
     # Detect frames of different sizes, list of faces rectangles
-    faces = face_detector.detectMultiScale(gray, 1.3, 5)
+    faces = face_detector.detectMultiScale(gray, 1.1, 4)
 
     # Loops for each faces
     for (x,y,w,h) in faces:
 
         # Crop the image frame into rectangle
-        cv2.rectangle(image_frame, (x,y), (x+w,y+h), (255,0,0), 2)
+        cv2.rectangle(image_frame, (x,y), (x+w,y+h), (255,255,255), 2)
         
         # Increment sample face image
         count += 1
 
         # Save the captured image into the datasets folder
-        cv2.imwrite("dataset/User." + str(face_id) + '.' + str(count) + ".jpg", gray[y:y+h,x:x+w])
+        cv2.imwrite("dataset/" + str(face_name) + '.' + str(face_id) + '.' + str(count) + ".jpg", gray[y:y+h,x:x+w])
 
         # Display the video frame, with bounded rectangle on the person's face
         cv2.imshow('frame', image_frame)
@@ -49,8 +50,8 @@ while(True):
     if cv2.waitKey(100) & 0xFF == ord('q'):
         break
 
-    # If image taken reach 100, stop taking video
-    elif count>=30:
+    # If image taken reach 50, stop taking video
+    elif count>=50:
         print("Successfully Captured")
         break
 
