@@ -7,7 +7,7 @@ def assure_path_exists(path):
     if not os.path.exists(dir):
         os.makedirs(dir)
 face_id = input('enter id :')
-face_name = input('enter name :')
+#face_name = input('enter name :')
 # Start capturing video 
 vid_cam = cv2.VideoCapture(0)
 
@@ -41,7 +41,7 @@ while(True):
         count += 1
 
         # Save the captured image into the datasets folder
-        cv2.imwrite("dataset/" + str(face_name) + '.' + str(face_id) + '.' + str(count) + ".jpg", gray[y:y+h,x:x+w])
+        cv2.imwrite("dataset/face" + '.' + str(face_id) + '.' + str(count) + ".jpg", gray[y:y+h,x:x+w])
 
         # Display the video frame, with bounded rectangle on the person's face
         cv2.imshow('frame', image_frame)

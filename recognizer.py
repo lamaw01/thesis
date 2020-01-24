@@ -8,7 +8,7 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 cap = cv2.VideoCapture(0);
 recognizer = cv2.face.LBPHFaceRecognizer_create();
 recognizer.read('trainer/trainer.yml');
-#flag = 0;
+flag = 0;
 facename = '';
 filename='filename';
 dict = {'item1': 1}
@@ -16,20 +16,20 @@ dict = {'item1': 1}
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 id = 0;
-names = []
+id_count = []
 
 while True:
     ret, img = cap.read();
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY);
     faces = face_cascade.detectMultiScale(gray, 1.1, 4);
     for (x,y,w,h) in faces:  
-        roi_gray = gray[y:y + h, x:x + w]     
+        roi_gray = gray[y:y + h, x:x + w]
         id,conf=recognizer.predict(roi_gray)
-        print(names)
-        if(conf < 100):
+        print(id_count)
+        if(conf <= 80):
             for i in range(id):
-                if id not in names:
-                    names.append(id)
+                if id not in id_count:
+                    id_count.append(id)
             id = id;
             #green color means known face
             detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,255,0),2);
@@ -42,7 +42,6 @@ while True:
             #id label color red
             cv2.putText(img,str(id)+" "+str(round(conf)),(x,y-10),font,0.55,(0,0,255),1)
         print("Found "+str(len(faces))+" face(s)")
-        
         
 ##        else:
 ##            id = 'unknown';           
