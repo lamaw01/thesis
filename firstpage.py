@@ -1,6 +1,5 @@
 #import module from tkinter for UI
 from tkinter import *
-from playsound import playsound
 import os
 from datetime import datetime;
 #creating instance of TK
@@ -21,7 +20,6 @@ def function2():
 def function3():
 
     os.system("py recognizer.py")
-    #playsound('sound.mp3')
     
 def function4():
     

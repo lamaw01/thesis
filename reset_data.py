@@ -6,6 +6,7 @@ from tkinter import messagebox as tkMessageBox
 root = tk.Tk()
 root.withdraw()
 
+#change path if in raspi
 path = 'dataset'
 trainer_path = 'trainer'
 trainer = 'trainer.yml'
@@ -17,16 +18,16 @@ for imagePath in imagePaths:
     images = (os.path.split(imagePath)[-1])
     #delete file dataset
     try:
-        if pathlib.Path(path+"\\"+images).is_file():
-            file_face = pathlib.Path(path+"\\"+images)
+        if pathlib.Path(path+"/"+images).is_file():
+            file_face = pathlib.Path(path+"/"+images)
             file_face.unlink()
     except FileNotFoundError:
         print("File not accessible")
     
 #delete file trainer
 try:
-    if pathlib.Path(trainer_path+"\\"+trainer).is_file():
-        trainer_file = pathlib.Path(trainer_path+"\\"+trainer)
+    if pathlib.Path(trainer_path+"/"+trainer).is_file():
+        trainer_file = pathlib.Path(trainer_path+"/"+trainer)
         trainer_file.unlink()
         tkMessageBox.showinfo("Information","Dataset Deleted!")
     else:

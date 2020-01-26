@@ -1,6 +1,5 @@
 import os, cv2, numpy as np;
 import sys
-from playsound import playsound
 import pathlib
 import tkinter as tk
 from tkinter import messagebox as tkMessageBox
@@ -8,10 +7,13 @@ from tkinter import messagebox as tkMessageBox
 root = tk.Tk()
 root.withdraw()
 
+#harcascade
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+#use camera
 cap = cv2.VideoCapture(0);
 recognizer = cv2.face.LBPHFaceRecognizer_create();
 
+#check if file exist
 try:
     if pathlib.Path('trainer/trainer.yml').is_file():
         recognizer.read('trainer/trainer.yml');
@@ -30,9 +32,7 @@ id_count = []
 counter = 0;
 
 while True:
-    if pathlib.Path('trainer/trainer.yml').is_file():
-        print("trainer ready")
-    else:
+    if pathlib.Path('trainer/trainer.yml').is_file is False():
         break;
     ret, img = cap.read();
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY);
@@ -86,9 +86,8 @@ while True:
     print("counter "+str(counter))
 
     #play the sound if counter reach 100
-    if(counter >= 100):
-        playsound('transactionSound.mp3')
-        print("Transaction Blocked")
+    if(counter >= 50):
+        print("send sms...")
         break;
 
     #show the frame
