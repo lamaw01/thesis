@@ -1,13 +1,17 @@
 # Import OpenCV2 for image processing
 import cv2
 import os
+import tkinter as tk
+from tkinter import messagebox as tkMessageBox
+
+root = tk.Tk()
+root.withdraw()
 
 def assure_path_exists(path):
     dir = os.path.dirname(path)
     if not os.path.exists(dir):
         os.makedirs(dir)
-#face_id = input('enter id :')
-#face_name = input('enter name :')
+
 # Start capturing video 
 vid_cam = cv2.VideoCapture(0)
 
@@ -18,19 +22,6 @@ face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 count = 0
 
 assure_path_exists("dataset/")
-
-
-##def getIdCount(path):
-##    #get the path of all the files in the folder
-##    imagePaths=[os.path.join(path,f) for f in os.listdir(path)]
-##    #now looping through all the image paths and loading the Ids and the images
-##    for imagePath in imagePaths:
-##        #getting the Id from the image
-##        Id=int(os.path.split(imagePath)[-1].split(".")[1])
-##
-##    
-##    id_count = Id
-##    print(id_count)
 
 path = 'dataset'
 
@@ -80,14 +71,13 @@ while(True):
 
     # To stop taking video, press 'q' for at least 100ms
     if cv2.waitKey(100) & 0xFF == ord('q'):
-        break
+        break;
 
     # If image taken reach 30, stop taking video
     elif count>=30:
-        print("Successfully Captured")
-        break
-    
-##getIdCount('dataset')
+        tkMessageBox.showinfo("Info","Dataset Captured!")
+        #print("Successfully Captured")
+        break;
 
 # Stop video
 vid_cam.release()

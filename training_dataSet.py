@@ -1,6 +1,11 @@
 import os,cv2;
 import numpy as np
 from PIL import Image;
+import tkinter as tk
+from tkinter import messagebox as tkMessageBox
+
+root = tk.Tk()
+root.withdraw()
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 detector= cv2.CascadeClassifier("haarcascade_frontalface_default.xml");
@@ -30,7 +35,21 @@ def getImagesAndLabels(path):
     return faceSamples,Ids
 
 faces,Ids = getImagesAndLabels('dataset')
-s = recognizer.train(faces, np.array(Ids))
-print("Successfully trained")
-recognizer.write('trainer/trainer.yml')
+
+#check if dataset is empty
+id_count = 0
+path = 'dataset'
+    
+imagePaths=[os.path.join(path,f) for f in os.listdir(path)]
+for imagePath in imagePaths:
+    Id=int(os.path.split(imagePath)[-1].split(".")[1])
+    id_count= Id
+        
+if(id_count == 0):
+    tkMessageBox.showerror("Error", "Dataset is Empty!")
+else:
+    s = recognizer.train(faces, np.array(Ids))
+    recognizer.write('trainer/trainer.yml')
+    tkMessageBox.showinfo("Info","Dataset Trained!")
+
 

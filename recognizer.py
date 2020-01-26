@@ -1,10 +1,26 @@
 import os, cv2, numpy as np;
 import sys
 from playsound import playsound
+import pathlib
+import tkinter as tk
+from tkinter import messagebox as tkMessageBox
+
+root = tk.Tk()
+root.withdraw()
+
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 cap = cv2.VideoCapture(0);
 recognizer = cv2.face.LBPHFaceRecognizer_create();
-recognizer.read('trainer/trainer.yml');
+
+try:
+    if pathlib.Path('trainer/trainer.yml').is_file():
+        recognizer.read('trainer/trainer.yml');
+    else:
+        tkMessageBox.showerror("Error", "Dataset is Empty!")
+except FileNotFoundError:
+    print("File not accessible")
+
+
 filename='filename';
 dict = {'item1': 1}
 font = cv2.FONT_HERSHEY_SIMPLEX
@@ -14,10 +30,14 @@ id_count = []
 counter = 0;
 
 while True:
+    if pathlib.Path('trainer/trainer.yml').is_file():
+        print("trainer ready")
+    else:
+        break;
     ret, img = cap.read();
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY);
     faces = face_cascade.detectMultiScale(gray, 1.1, 4);
-    for (x,y,w,h) in faces:  
+    for (x,y,w,h) in faces:    
         roi_gray = gray[y:y + h, x:x + w]
         id,conf=recognizer.predict(roi_gray)
         if(conf <= 90):
