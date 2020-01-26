@@ -6,7 +6,7 @@ def assure_path_exists(path):
     dir = os.path.dirname(path)
     if not os.path.exists(dir):
         os.makedirs(dir)
-face_id = input('enter id :')
+#face_id = input('enter id :')
 #face_name = input('enter name :')
 # Start capturing video 
 vid_cam = cv2.VideoCapture(0)
@@ -18,6 +18,38 @@ face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 count = 0
 
 assure_path_exists("dataset/")
+
+
+##def getIdCount(path):
+##    #get the path of all the files in the folder
+##    imagePaths=[os.path.join(path,f) for f in os.listdir(path)]
+##    #now looping through all the image paths and loading the Ids and the images
+##    for imagePath in imagePaths:
+##        #getting the Id from the image
+##        Id=int(os.path.split(imagePath)[-1].split(".")[1])
+##
+##    
+##    id_count = Id
+##    print(id_count)
+
+path = 'dataset'
+
+#counts the existing ids in dataset folder
+id_count = 1
+        
+#get the path of all the files in the folder
+imagePaths=[os.path.join(path,f) for f in os.listdir(path)]
+#now looping through all the image paths and loading the Ids and the images
+for imagePath in imagePaths:
+#getting the Id from the image
+    Id=int(os.path.split(imagePath)[-1].split(".")[1])
+    if Id is None:
+        id_count = 1
+    else:
+        id_count = Id+1
+        
+print(id_count)
+
 
 # Start looping
 while(True):
@@ -41,7 +73,7 @@ while(True):
         count += 1
 
         # Save the captured image into the datasets folder
-        cv2.imwrite("dataset/face" + '.' + str(face_id) + '.' + str(count) + ".jpg", gray[y:y+h,x:x+w])
+        cv2.imwrite("dataset/face" + '.' + str(id_count) + '.' + str(count) + ".jpg", gray[y:y+h,x:x+w])
 
         # Display the video frame, with bounded rectangle on the person's face
         cv2.imshow('frame', image_frame)
@@ -50,13 +82,17 @@ while(True):
     if cv2.waitKey(100) & 0xFF == ord('q'):
         break
 
-    # If image taken reach 60, stop taking video
-    elif count>=60:
+    # If image taken reach 30, stop taking video
+    elif count>=30:
         print("Successfully Captured")
         break
+    
+##getIdCount('dataset')
 
 # Stop video
 vid_cam.release()
 
 # Close all started windows
 cv2.destroyAllWindows()
+
+
