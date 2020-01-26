@@ -17,11 +17,11 @@ counter = 0;
 while True:
     ret, img = cap.read();
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY);
-    faces = face_cascade.detectMultiScale(gray, 1.1, 4);    
+    faces = face_cascade.detectMultiScale(gray, 1.1, 4);
     for (x,y,w,h) in faces:  
         roi_gray = gray[y:y + h, x:x + w]
         id,conf=recognizer.predict(roi_gray)
-        if(conf <= 100):
+        if(conf <= 99):
             #for every id detected it adds to the id_count list
             for i in range(id):
                 if id not in id_count:

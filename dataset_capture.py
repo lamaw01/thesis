@@ -50,8 +50,8 @@ while(True):
     if cv2.waitKey(100) & 0xFF == ord('q'):
         break
 
-    # If image taken reach 30, stop taking video
-    elif count>=30:
+    # If image taken reach 60, stop taking video
+    elif count>=60:
         print("Successfully Captured")
         break
 
