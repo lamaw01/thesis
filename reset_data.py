@@ -7,6 +7,8 @@ root = tk.Tk()
 root.withdraw()
 
 #change path if in raspi
+#path = '/home/pi/Desktop/thesis/dataset'
+#trainer_path = '/home/pi/Desktop/thesis/trainer'
 path = 'dataset'
 trainer_path = 'trainer'
 trainer = 'trainer.yml'
