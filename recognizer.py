@@ -32,7 +32,7 @@ id_count = []
 counter = 0;
 
 while True:
-    if pathlib.Path('trainer/trainer.yml').is_file is False():
+    if pathlib.Path('trainer/trainer.yml').is_file() is False:
         break;
     ret, img = cap.read();
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY);
