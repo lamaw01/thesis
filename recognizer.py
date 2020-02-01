@@ -85,17 +85,25 @@ while True:
             
     print("counter "+str(counter))
 
-    #play the sound if counter reach 100
-    if(counter >= 50):
-        print("send sms...")
-        break;
-
+    #play the sound if counter reach 20
+    if(counter == 20):
+        #call gsm sms scipt
+        os.system("python3 sms.py")
+        counter=counter+5
+    elif(counter == 50):
+        #call gsm dial scipt
+        os.system("python3 dial.py")
+        counter=counter+5
+        
+    elif(counter >= 90):
+        #reset id_counter
+        counter = 0
     #show the frame
     cv2.imshow('frame',img);
 
     #closes the program if presses q
     if cv2.waitKey(100) & 0xFF == ord('q'):
-        break;
+        break
 
 #destroy window    
 cap.release();

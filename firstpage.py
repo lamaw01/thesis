@@ -11,19 +11,19 @@ root.configure(background="white")
 
 def function1():
     
-    os.system("py dataset_capture.py")
+    os.system("python3 dataset_capture.py")
     
 def function2():
     
-    os.system("py training_dataset.py")
+    os.system("python3 training_dataset.py")
 
 def function3():
 
-    os.system("py recognizer.py")
+    os.system("python3 recognizer.py")
     
 def function4():
     
-    os.system("py reset_data.py")
+    os.system("python3 reset_data.py")
 
 def function6():
 
