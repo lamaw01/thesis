@@ -89,13 +89,13 @@ while True:
     if(counter == 20):
         #call gsm sms scipt
         os.system("python3 sms.py")
-        counter=counter+5
-    elif(counter == 50):
+        counter=counter+10
+    elif(counter == 70):
         #call gsm dial scipt
         os.system("python3 dial.py")
-        counter=counter+5
+        counter=counter+10
         
-    elif(counter >= 90):
+    elif(counter >= 100):
         #reset id_counter
         counter = 0
     #show the frame
