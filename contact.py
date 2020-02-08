@@ -19,7 +19,7 @@ def append():
     f.close()
     
     label1 = tk.Label(root, text = contact)
-    canvas1.create_window(150, 60, window=label1)
+    canvas1.create_window(125, 60, window=label1)
     
 def cancel():
     root.destroy()
