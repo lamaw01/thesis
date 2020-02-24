@@ -73,8 +73,8 @@ while(True):
     if cv2.waitKey(100) & 0xFF == ord('q'):
         break;
 
-    #if image taken reach 30, stop taking video
-    elif count>=30:
+    #if image taken reach 70, stop taking video
+    elif count>=70:
         tkMessageBox.showinfo("Info","Dataset Captured!")
         #print("Successfully Captured")
         break;

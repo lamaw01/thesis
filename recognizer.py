@@ -40,17 +40,23 @@ while True:
     for (x,y,w,h) in faces:    
         roi_gray = gray[y:y + h, x:x + w]
         id,conf=recognizer.predict(roi_gray)
-        if(conf <= 90):
+        if(conf <= 70):
             #for every id detected it adds to the id_count list
             for i in range(id):
                 if id not in id_count:
                     id_count.append(id)
             id = id;
-            #green color means known face
-            detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,255,0),1);
-            #id label color green
-            cv2.putText(img,str(id)+" "+str(round(conf)),(x,y-10),font,0.55,(0,255,0),1)
-        elif(conf > 90 and conf <= 120):
+            if len(id_count) == len(faces):
+                #green color means known face
+                detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,255,0),1);
+                #id label color green
+                cv2.putText(img,str(id)+" "+str(round(conf)),(x,y-10),font,0.55,(0,255,0),1)
+
+            else:
+                id = 'safe';
+                detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (255,255,255),1);
+                cv2.putText(img,str(id)+" "+str(round(conf)),(x,y-10),font,0.55,(255,255,255),1)
+        elif(conf > 70 and conf <= 90):
             id = 'approximately';
             #orange color means unknown face
             detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,140,255),1);
@@ -86,16 +92,16 @@ while True:
     print("counter "+str(counter))
 
     #play the sound if counter reach 20
-    if(counter == 20):
-        #call gsm sms scipt
-        os.system("python3 sms.py")
-        counter=counter+10
-    elif(counter == 70):
-        #call gsm dial scipt
-        os.system("python3 dial.py")
-        counter=counter+10
+##    if(counter == 20):
+##        #call gsm sms scipt
+##        os.system("python3 sms.py")
+##        counter=counter+10
+##    elif(counter == 70):
+##        #call gsm dial scipt
+##        os.system("python3 dial.py")
+##        counter=counter+10
         
-    elif(counter >= 100):
+    if(counter >= 100):
         #reset id_counter
         counter = 0
     #show the frame
