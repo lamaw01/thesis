@@ -23,8 +23,6 @@ except FileNotFoundError:
     print("File not accessible")
 
 
-filename='filename';
-dict = {'item1': 1}
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 id = 0;
@@ -56,7 +54,7 @@ while True:
                 id = 'safe';
                 detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (255,255,255),1);
                 cv2.putText(img,str(id)+" "+str(round(conf)),(x,y-10),font,0.55,(255,255,255),1)
-        elif(conf > 70 and conf <= 90):
+        elif(conf > 70 and conf <= 80):
             id = 'approximately';
             #orange color means unknown face
             detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,140,255),1);
@@ -92,14 +90,14 @@ while True:
     print("counter "+str(counter))
 
     #play the sound if counter reach 20
-##    if(counter == 20):
-##        #call gsm sms scipt
-##        os.system("python3 sms.py")
-##        counter=counter+10
-##    elif(counter == 70):
-##        #call gsm dial scipt
-##        os.system("python3 dial.py")
-##        counter=counter+10
+    if(counter == 20):
+        #call gsm sms scipt
+        os.system("python3 sms.py")
+        counter=counter+10
+    elif(counter == 70):
+        #call gsm dial scipt
+        os.system("python3 dial.py")
+        counter=counter+10
         
     if(counter >= 100):
         #reset id_counter
@@ -114,3 +112,4 @@ while True:
 #destroy window    
 cap.release();
 cv2.destroyAllWindows();
+
