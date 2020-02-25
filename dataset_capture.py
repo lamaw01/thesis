@@ -13,15 +13,14 @@ def assure_path_exists(path):
         os.makedirs(dir)
 
 #start capturing video 
-cam = cv2.VideoCapture(0)
-
 cam = cv2.VideoCapture(0);
-cam.set(3, 640) # set video widht
-cam.set(4, 480) # set video height
 
-# Define min window size to be recognized as a face
-minW = 0.1*cam.get(3)
-minH = 0.1*cam.get(4)
+##cam.set(3, 640) # set video widht
+##cam.set(4, 480) # set video height
+##
+### Define min window size to be recognized as a face
+##minW = 0.1*cam.get(3)
+##minH = 0.1*cam.get(4)
 
 #detect object in video stream using haarcascade frontal face
 face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -60,7 +59,7 @@ while(True):
     gray = cv2.cvtColor(image_frame, cv2.COLOR_BGR2GRAY)
 
     #detect frames of different sizes, list of faces rectangles
-    faces = face_detector.detectMultiScale(gray, scaleFactor = 1.2,minNeighbors = 5,minSize = (int(minW), int(minH)));
+    faces = face_detector.detectMultiScale(gray, scaleFactor = 1.1,minNeighbors = 5);
 
     #loops for each faces
     for (x,y,w,h) in faces:

@@ -11,12 +11,12 @@ root.withdraw()
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 #use camera
 cam = cv2.VideoCapture(0);
-cam.set(3, 640) # set video widht
-cam.set(4, 480) # set video height
-
-# Define min window size to be recognized as a face
-minW = 0.1*cam.get(3)
-minH = 0.1*cam.get(4)
+##cam.set(3, 640) # set video widht
+##cam.set(4, 480) # set video height
+##
+### Define min window size to be recognized as a face
+##minW = 0.1*cam.get(3)
+##minH = 0.1*cam.get(4)
 
 #algorithm used
 recognizer = cv2.face.LBPHFaceRecognizer_create();
@@ -42,12 +42,12 @@ while True:
         break;
     ret, img = cam.read();
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY);
-    faces = face_cascade.detectMultiScale(gray, scaleFactor = 1.2,minNeighbors = 5,minSize = (int(minW), int(minH)));
+    faces = face_cascade.detectMultiScale(gray, scaleFactor = 1.1,minNeighbors = 5);
     for (x,y,w,h) in faces:    
         roi_gray = gray[y:y + h, x:x + w]
         id,conf=recognizer.predict(roi_gray)
         if(conf <= 70):
-            conf = "  {0}%".format(round(70 - conf))
+            #conf = "  {0}%".format(round(70 - conf))
             #for every id detected it adds to the id_count list
             for i in range(id):
                 if id not in id_count:
@@ -56,18 +56,18 @@ while True:
                 #green color means known face
                 detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,255,0),1);
                 #id label color green
-                cv2.putText(img,str(id)+" "+str(conf),(x,y-10),font,0.55,(0,255,0),1)
+                cv2.putText(img,str(id)+" "+str(round(conf)),(x,y-10),font,0.55,(0,255,0),1)
             else:
                 label = 'safe';
                 detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (255,255,255),1);
-                cv2.putText(img,str(id)+" "+str(label)+" "+str(conf),(x,y-10),font,0.55,(255,255,255),1)         
+                cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(255,255,255),1)         
         else:
-            conf = "  {0}%".format(round(130 - conf))
+            #conf = "  {0}%".format(round(130 - conf))
             id = 'unknown';
             #red color means unknown face
             detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,0,255),1);
             #id label color red
-            cv2.putText(img,str(id)+" "+str(conf),(x,y-10),font,0.55,(0,0,255),1)
+            cv2.putText(img,str(id)+" "+str(round(conf)),(x,y-10),font,0.55,(0,0,255),1)
             id_count.clear()
 
     print("id list "+str(id_count))
