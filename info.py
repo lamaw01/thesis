@@ -11,7 +11,7 @@ root.configure(background="white")
 def defProceed():
 
     root.destroy()
-    os.system("python3 firstpage.py")       
+    os.system("python firstpage.py")       
 
 #setting title for the window
 root.title("Info")
