@@ -7,21 +7,12 @@ from tkinter import messagebox as tkMessageBox
 root = tk.Tk()
 root.withdraw()
 
-#harcascade
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-#use camera
-cam = cv2.VideoCapture(0);
-##cam.set(3, 640) # set video widht
-##cam.set(4, 480) # set video height
-##
-### Define min window size to be recognized as a face
-##minW = 0.1*cam.get(3)
-##minH = 0.1*cam.get(4)
 
-#algorithm used
+cam = cv2.VideoCapture(0);
+
 recognizer = cv2.face.LBPHFaceRecognizer_create();
 
-#check if file exist
 try:
     if pathlib.Path('trainer/trainer.yml').is_file():
         recognizer.read('trainer/trainer.yml');
@@ -29,7 +20,6 @@ try:
         tkMessageBox.showerror("Error", "Dataset is Empty!")
 except FileNotFoundError:
     print("File not accessible")
-
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -48,45 +38,38 @@ while True:
         id,conf=recognizer.predict(roi_gray)
         if(conf <= 70):
             #conf = "  {0}%".format(round(70 - conf))
-            #for every id detected it adds to the id_count list
             for i in range(id):
                 if id not in id_count:
                     id_count.append(id)
+            label = 'parent';
+            detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,0,255),1);
+            cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(0,0,255),1)
+            counter=counter-1  
+        else:
             if len(id_count) == len(faces):
-                #green color means known face
-                detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,255,0),1);
-                #id label color green
-                cv2.putText(img,str(id)+" "+str(round(conf)),(x,y-10),font,0.55,(0,255,0),1)
-            else:
+                id_count.clear()
+                #conf = "  {0}%".format(round(130 - conf))
+            if(len(id_count) >= 1):
+                id = 'child';
                 label = 'safe';
                 detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (255,255,255),1);
-                cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(255,255,255),1)         
-        else:
-            #conf = "  {0}%".format(round(130 - conf))
-            id = 'unknown';
-            #red color means unknown face
-            detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,0,255),1);
-            #id label color red
-            cv2.putText(img,str(id)+" "+str(round(conf)),(x,y-10),font,0.55,(0,0,255),1)
-            id_count.clear()
+                cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(255,255,255),1)
+            else:
+                id = 'child';
+                label = 'alone';
+                detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,255,0),1);
+                cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(0,255,0),1)
+                counter=counter+1
 
     print("id list "+str(id_count))
     print("found "+str(len(faces))+" face(s)")
 
-    #clear the id_count
-    if(len(id_count) > len(faces)):
-            id_count.clear()
-
     if(len(faces) == 0):
-            id_count.clear()
-    
-    #increments a counter to call the gsm if reached an specific amount
-    if(len(id_count)) == (len(faces) or len(id_count) == 0):
-        counter=counter+1
-        
-    else:
-        if counter != 0:
-            counter=counter-1
+        counter = 0
+        id_count.clear()
+
+    if(counter < 0):
+        counter = 0
             
     print("counter "+str(counter))
 
@@ -94,23 +77,19 @@ while True:
     if(counter == 20):
         #call gsm sms scipt
         os.system("python3 sms.py")
-        counter=counter+10
+        #counter=counter+10
     elif(counter == 70):
         #call gsm dial scipt
         os.system("python3 dial.py")
-        counter=counter+10
+        #counter=counter+10
         
     if(counter >= 100):
-        #reset id_counter
         counter = 0
-    #show the frame
+
     cv2.imshow('frame',img);
 
-    #closes the program if presses q
     if cv2.waitKey(100) & 0xFF == ord('q'):
         break
-
-#destroy window    
+  
 cam.release();
 cv2.destroyAllWindows();
-
