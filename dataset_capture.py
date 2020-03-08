@@ -15,13 +15,6 @@ def assure_path_exists(path):
 #start capturing video 
 cam = cv2.VideoCapture(0);
 
-##cam.set(3, 640) # set video widht
-##cam.set(4, 480) # set video height
-##
-### Define min window size to be recognized as a face
-##minW = 0.1*cam.get(3)
-##minH = 0.1*cam.get(4)
-
 #detect object in video stream using haarcascade frontal face
 face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
@@ -80,8 +73,8 @@ while(True):
     if cv2.waitKey(100) & 0xFF == ord('q'):
         break;
 
-    #if image taken reach 70, stop taking video
-    elif count>=70:
+    #if image taken reach 50, stop taking video
+    elif count>=50:
         tkMessageBox.showinfo("Info","Dataset Captured!")
         #print("Successfully Captured")
         break;
