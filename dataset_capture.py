@@ -1,4 +1,3 @@
-#import opencv2 for image processing
 import cv2
 import os
 import tkinter as tk
@@ -12,27 +11,25 @@ def assure_path_exists(path):
     if not os.path.exists(dir):
         os.makedirs(dir)
 
-#start capturing video 
-cam = cv2.VideoCapture(0);
-
-#detect object in video stream using haarcascade frontal face
-face_detector = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-
-#initialize sample face image
-count = 0
-
 assure_path_exists("dataset/")
 
-path = 'dataset'
+cascade_name = 'haarcascade_frontalface_default.xml'
+face_cascade = cv2.CascadeClassifier(cascade_name)
 
-#counts the existing ids in dataset folder
+cameraNo = 0
+frameWidth= 640
+frameHeight = 480
+cam = cv2.VideoCapture(cameraNo)
+cam.set(3, frameWidth)
+cam.set(4, frameHeight)
+
+count = 0
 id_count = 1
         
-#get the path of all the files in the folder
+path = 'dataset'
 imagePaths=[os.path.join(path,f) for f in os.listdir(path)]
-#now looping through all the image paths and loading the Ids and the images
+
 for imagePath in imagePaths:
-#getting the Id from the image
     Id=int(os.path.split(imagePath)[-1].split(".")[1])
     if Id is None:
         id_count = 1
@@ -41,48 +38,24 @@ for imagePath in imagePaths:
         
 print(id_count)
 
-
-#start looping
 while(True):
-
-    #capture video frame
-    _, image_frame = cam.read()
-
-    #convert frame to grayscale
-    gray = cv2.cvtColor(image_frame, cv2.COLOR_BGR2GRAY)
-
-    #detect frames of different sizes, list of faces rectangles
-    faces = face_detector.detectMultiScale(gray, scaleFactor = 1.1,minNeighbors = 5);
-
-    #loops for each faces
-    for (x,y,w,h) in faces:
-
-        #crop the image frame into rectangle
-        cv2.rectangle(image_frame, (x,y), (x+w,y+h), (255,255,255), 1)
-        
-        #increment sample face image
+    success, img = cam.read()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, scaleFactor = 1.1,minNeighbors = 5);
+    for (x,y,w,h) in faces:   
+        cv2.rectangle(img, (x,y), (x+w,y+h), (255,255,255), 1)
         count += 1
-
-        #save the captured image into the datasets folder
         cv2.imwrite("dataset/face" + '.' + str(id_count) + '.' + str(count) + ".jpg", gray[y:y+h,x:x+w])
+        cv2.imshow('frame', img)
 
-        #display the video frame, with bounded rectangle on the person's face
-        cv2.imshow('frame', image_frame)
-
-    #to stop taking video, press 'q' for at least 100ms
     if cv2.waitKey(100) & 0xFF == ord('q'):
         break;
 
-    #if image taken reach 50, stop taking video
     elif count>=50:
         tkMessageBox.showinfo("Info","Dataset Captured!")
-        #print("Successfully Captured")
         break;
 
-#stop video
 cam.release()
-
-#close all started windows
 cv2.destroyAllWindows()
 
 
