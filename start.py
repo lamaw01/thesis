@@ -47,8 +47,8 @@ while True:
                 if id not in id_count:
                     id_count.append(id)
             label = 'parent';
-            detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,0,255),1);
-            cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(0,0,255),1)
+            detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,0,255),2);
+            cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(0,0,255),2)
             counter=0
         else:
             if len(id_count) == len(faces):
@@ -57,20 +57,20 @@ while True:
             if(len(id_count) >= 1):
                 id = 'child';
                 label = 'safe';
-                detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (255,255,255),1);
-                cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(255,255,255),1)
+                detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (255,255,255),2);
+                cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(255,255,255),2)
             else:
                 id = 'child';
                 label = 'alone';
                 detected_face = cv2.rectangle(img, (x,y), (x+w, y+h), (0,255,0),1);
-                cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(0,255,0),1)
+                cv2.putText(img,str(id)+" "+str(label)+" "+str(round(conf)),(x,y-10),font,0.55,(0,255,0),2)
                 counter=counter+1
 
     print("id list "+str(id_count))
     print("found "+str(len(faces))+" face(s)")
 
     if(len(faces) == 0):
-        counter = 10
+        counter = 0
         id_count.clear()
 
     if(counter < 0):
@@ -80,15 +80,18 @@ while True:
 
     if(counter == 20):
         os.system("python3 sms.py")
-    elif(counter == 70):
+    elif(counter == 60):
         os.system("python3 dial.py")
         
-    if(counter >= 100):
+    if(counter >= 90):
         counter = 0
 
     cv2.imshow('frame',img);
 
     if cv2.waitKey(100) & 0xFF == ord('q'):
+        break
+
+    if cv2.getWindowProperty('frame', 0) < 0:
         break
   
 cam.release();

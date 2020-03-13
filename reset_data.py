@@ -13,9 +13,7 @@ path = 'dataset'
 trainer_path = 'trainer'
 trainer = 'trainer.yml'
 
-#get the path of all the files in the folder
 imagePaths=[os.path.join(path,f) for f in os.listdir(path)]
-#now looping through all the image paths and loading the Ids and the images
 for imagePath in imagePaths:
     images = (os.path.split(imagePath)[-1])
     #delete file dataset
