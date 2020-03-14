@@ -49,6 +49,9 @@ while(True):
 
     if cv2.waitKey(100) & 0xFF == ord('q'):
         break;
+    
+    if cv2.getWindowProperty('frame', 4) < 1:
+        break
 
     elif count>=50:
         tkMessageBox.showinfo("Info","Dataset Captured!")
