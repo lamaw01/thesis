@@ -77,9 +77,9 @@ while True:
             
     print("counter "+str(counter))
 
-    if(counter >= 10 and counter < 12):
+    if(counter >= 15 and counter < 17):
         os.system("python3 sms.py")
-    elif(counter >= 30 and counter <= 32):
+    elif(counter >= 30 and counter < 32):
         os.system("python3 dial.py")
         
     if(counter >= 50):
