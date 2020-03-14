@@ -8,19 +8,19 @@ root.resizable(False, False)
 root.configure(background="white")
 
 def function1():
-    os.system("python start.py")
+    os.system("python3 start.py")
     
 def function2():
-    os.system("python dataset_capture.py")
+    os.system("python3 dataset_capture.py")
 
 def function3():
-    os.system("python train_dataset.py")
+    os.system("python3 train_dataset.py")
     
 def function4():
-    os.system("python contact.py")
+    os.system("python3 contact.py")
     
 def function5():
-    os.system("python reset_data.py")
+    os.system("python3 reset_data.py")
 
 def function6():
     root.destroy()

@@ -10,10 +10,9 @@ root.withdraw()
 cascade_name = 'haarcascade_frontalface_default.xml'
 face_cascade = cv2.CascadeClassifier(cascade_name)
 
-cameraNo = 0
 frameWidth= 640
 frameHeight = 480
-cam = cv2.VideoCapture(cameraNo)
+cam = cv2.VideoCapture(0)
 cam.set(3, frameWidth)
 cam.set(4, frameHeight)
 
@@ -78,12 +77,12 @@ while True:
             
     print("counter "+str(counter))
 
-    if(counter == 20):
+    if(counter == 10):
         os.system("python3 sms.py")
-    elif(counter == 60):
+    elif(counter == 30):
         os.system("python3 dial.py")
         
-    if(counter >= 90):
+    if(counter >= 50):
         counter = 0
 
     cv2.imshow('frame',img);
@@ -91,7 +90,7 @@ while True:
     if cv2.waitKey(100) & 0xFF == ord('q'):
         break
 
-    if cv2.getWindowProperty('frame', 0) < 0:
+    if cv2.getWindowProperty('frame', 4) < 1:
         break
   
 cam.release();

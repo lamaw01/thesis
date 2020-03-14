@@ -16,10 +16,9 @@ assure_path_exists("dataset/")
 cascade_name = 'haarcascade_frontalface_default.xml'
 face_cascade = cv2.CascadeClassifier(cascade_name)
 
-cameraNo = 0
 frameWidth= 640
 frameHeight = 480
-cam = cv2.VideoCapture(cameraNo)
+cam = cv2.VideoCapture(0)
 cam.set(3, frameWidth)
 cam.set(4, frameHeight)
 
